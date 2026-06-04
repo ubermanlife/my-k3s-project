@@ -1,0 +1,16 @@
+# Параметры для нашего Python-приложения
+app:
+  replicaCount: 3
+  image: "myapp:v1"
+  containerPort: 80
+
+# Параметры для базы данных PostgreSQL
+postgres:
+  image: "postgres:15-alpine"
+  storageSize: 10Gi
+  user: "myuser"
+  dbName: "mydb"
+
+# Секретные данные
+secret:
+  dbPassword: "mypassword"
