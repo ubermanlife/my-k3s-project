@@ -1,0 +1,13 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ .Release.Name }}-app-monitor
+  labels:
+    release: kube-monitoring # Этот label связывает монитор с Прометеусом
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-app
+  endpoints:
+  - port: web # Он будет искать порт с именем web в твоем сервисе приложения
+    interval: 15s
