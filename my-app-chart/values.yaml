@@ -1,6 +1,6 @@
 # Параметры для нашего Python-приложения
 app:
-  replicaCount: 3
+  replicaCount: 5
   image: "myapp:v1"
   containerPort: 80
 
