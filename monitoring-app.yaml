@@ -8,14 +8,22 @@ spec:
   source:
     chart: kube-prometheus-stack
     repoURL: https://prometheus-community.github.io/helm-charts
-    targetRevision: 58.x.x  # Стабильная версия
+    targetRevision: 58.x.x
     helm:
       values: |
         grafana:
-          adminPassword: "admin"  # Пароль для входа в Графану
+          adminPassword: "admin"
           service:
             type: NodePort
-            nodePort: 32000       # Откроем Grafana наружу на порту 32000
+            nodePort: 32000
+        prometheus:
+          prometheusSpec:
+            podMonitorSelectorNilUsesHelmValues: false
+            serviceMonitorSelectorNilUsesHelmValues: false
+        kubelet:
+          enabled: true
+          serviceMonitor:
+            https: false # Для k3s отключаем https при сборе метрик с ноды
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
@@ -24,4 +32,4 @@ spec:
       prune: true
       selfHeal: true
     syncOptions:
-      - CreateNamespace=true  # ArgoCD сам создаст namespace "monitoring"
+      - CreateNamespace=true
