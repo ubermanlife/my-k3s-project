@@ -18,12 +18,13 @@ spec:
             nodePort: 32000
         prometheus:
           prometheusSpec:
-            podMonitorSelectorNilUsesHelmValues: false
+            # ЭТИ ДВЕ СТРОКИ ЗАСТАВЯТ ПРОМЕТЕУС ВИДЕТЬ ВСЕ МОНИТОРЫ БЕЗ ИСКЛЮЧЕНИЯ:
             serviceMonitorSelectorNilUsesHelmValues: false
+            podMonitorSelectorNilUsesHelmValues: false
         kubelet:
           enabled: true
           serviceMonitor:
-            https: false # Для k3s отключаем https при сборе метрик с ноды
+            https: false
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
