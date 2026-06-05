@@ -18,8 +18,8 @@ spec:
             - name: PGPASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: postgres-secret
-                  key: database-password
+                  name: my-python-app-secret
+                  key: DB_PASSWORD
             command:
             - /bin/sh
             - -c
