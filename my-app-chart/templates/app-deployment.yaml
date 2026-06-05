@@ -18,7 +18,14 @@ spec:
         imagePullPolicy: Never
         ports:
         - containerPort: {{ .Values.app.containerPort }}
-        env:
+          resources:
+        requests:
+          memory: "64Mi"
+          cpu: "100m"  # 100 миллиядер (0.1 ядра) — это будет нашей базой для HPA
+        limits:
+          memory: "128Mi"
+          cpu: "200m"
+          env:
         - name: DB_HOST
           value: {{ .Release.Name }}-postgres
         - name: DB_PASSWORD

@@ -1,0 +1,19 @@
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: my-python-app-hpa
+  namespace: default
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: my-python-app-app   # Посмотри в файле deployment.yaml точное имя (metadata.name) твоего деплоймента и впиши сюда
+  minReplicas: 1
+  maxReplicas: 5              # Максимально кластер создаст 5 подов, если пойдет нагрузка
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50 # Если средняя нагрузка на CPU по всем подам превысит 50% — создаем новый под
