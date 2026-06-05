@@ -3,6 +3,10 @@ kind: Application
 metadata:
   name: kube-monitoring
   namespace: argocd
+  annotations:
+    # ЭТИ ДВЕ СТРОКИ СПАСУТ СИТУАЦИЮ НА СЛАБОЙ ВИРТУАЛКЕ:
+    argocd.argoproj.io/sync-options: SkipHealthCheck=true
+    argocd.argoproj.io/refresh: "hard"
 spec:
   project: default
   source:
@@ -18,7 +22,6 @@ spec:
             nodePort: 32000
         prometheus:
           prometheusSpec:
-            # ЭТИ ДВЕ СТРОКИ ЗАСТАВЯТ ПРОМЕТЕУС ВИДЕТЬ ВСЕ МОНИТОРЫ БЕЗ ИСКЛЮЧЕНИЯ:
             serviceMonitorSelectorNilUsesHelmValues: false
             podMonitorSelectorNilUsesHelmValues: false
         kubelet:
