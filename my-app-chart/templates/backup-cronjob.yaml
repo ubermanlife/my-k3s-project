@@ -16,7 +16,10 @@ spec:
             image: postgres:15-alpine # Используем легкий образ с утилитой pg_dump
             env:
             - name: PGPASSWORD
-              value: "твой_пароль_из_postgres.yaml" # Подставь сюда свой пароль к БД
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: database-password
             command:
             - /bin/sh
             - -c
