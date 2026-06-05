@@ -26,6 +26,6 @@ spec:
             - |
               echo "Старт создания резервной копии..."
               # Подключаемся к сервису postgres и делаем дамп в файл внутри пода
-              pg_dump -h my-python-app-postgres -U postgres -d postgres > /tmp/backup-$(date +%Y%m%d-%H%M%S).sql
+              pg_dump -h my-python-app-postgres -U myuser -d mydb > /tmp/backup-$(date +%Y%m%d-%H%M%S).sql
               echo "Бэкап успешно создан!"
           restartPolicy: OnFailure
