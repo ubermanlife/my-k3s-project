@@ -1,0 +1,28 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: postgres-backup-job
+  namespace: default
+spec:
+  # Расписание в формате crontab (каждую ночь в 00:00)
+  schedule: "0 0 * * *" 
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: postgres-backup
+            image: postgres:15-alpine # Используем легкий образ с утилитой pg_dump
+            env:
+            - name: PGPASSWORD
+              value: "твой_пароль_из_postgres.yaml" # Подставь сюда свой пароль к БД
+            command:
+            - /bin/sh
+            - -c
+            - |
+              echo "Старт создания резервной копии..."
+              # Подключаемся к сервису postgres и делаем дамп в файл внутри пода
+              pg_dump -h my-python-app-postgres -U postgres -d postgres > /tmp/backup-$(date +%Y%m%d-%H%M%S).sql
+              echo "Бэкап успешно создан!"
+          restartPolicy: OnFailure
